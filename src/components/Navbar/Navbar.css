@@ -1,0 +1,17 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 60px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+.logo {
+  font-weight: 800;
+}
+.navbar ul {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}

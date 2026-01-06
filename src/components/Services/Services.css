@@ -1,0 +1,178 @@
+/* =========================================
+   1. MAIN LAYOUT
+   ========================================= */
+.services {
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #0f7f6a, #0b6b59);
+}
+
+.services-container {
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+
+.services-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.services-subtitle {
+  margin-top: 12px;
+  font-size: 18px;
+  color: #f5d36b;
+}
+
+.services-grid {
+  margin-top: 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+/* =========================================
+   2. CARD CONTAINER
+   ========================================= */
+.service-card {
+  position: relative; /* Essential for the overlay link */
+  background: white;
+  padding: 35px 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+  
+  /* DEFAULT STATE: No Transform (Fixes Mobile) */
+  transform: none; 
+}
+
+/* =========================================
+   3. THE MAGIC OVERLAY LINK (Fixes Click)
+   ========================================= */
+.card-overlay-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10; /* Sits on top of everything */
+  cursor: pointer;
+  
+  /* Mobile Tap Fixes */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* =========================================
+   4. VISUAL CONTENT STYLES
+   ========================================= */
+.service-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  /* Make sure content doesn't block the link click */
+  pointer-events: none; 
+}
+
+.service-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8a6a2f, #f5d36b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.service-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+/* The Visual Button */
+.service-fake-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 25px;
+  background: linear-gradient(135deg, #0f7f6a, #0b6b59);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(15, 127, 106, 0.3);
+}
+
+/* =========================================
+   5. DESKTOP ONLY ANIMATIONS (Safe Zone)
+   ========================================= */
+@media (min-width: 769px) {
+  /* Only apply the move-up animation on big screens */
+  .service-card {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.4s ease;
+  }
+  
+  .service-card.reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  .service-card:hover .service-fake-btn {
+    background: linear-gradient(135deg, #8a6a2f, #f5d36b);
+    color: black;
+  }
+}
+
+/* =========================================
+   6. MOBILE SPECIFIC (Stability First)
+   ========================================= */
+@media (max-width: 768px) {
+  .services { padding: 60px 16px; }
+  .services-title { font-size: 32px; }
+  
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .service-card {
+    padding: 20px 10px;
+    min-height: 200px;
+    /* ENSURE IT IS VISIBLE IMMEDIATELY ON MOBILE */
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  .service-icon { width: 50px; height: 50px; font-size: 22px; }
+  .service-card h3 { font-size: 15px; margin-bottom: 15px; }
+  
+  .service-fake-btn {
+    width: 90%;
+    justify-content: center;
+    font-size: 13px;
+    padding: 8px 0;
+  }
+  
+  /* Add visual feedback when tapping the overlay */
+  .card-overlay-link:active + .service-content {
+    transform: scale(0.96);
+    transition: transform 0.1s;
+  }
+}
