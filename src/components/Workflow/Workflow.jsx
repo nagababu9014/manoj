@@ -1,5 +1,5 @@
 import "./Workflow.css";
-import workflowImg from "../../assets/workflow.png"; // your generated workflow image
+import workflowImg from "../../assets/workflow.jpg"; // your generated workflow image
 
 export default function Workflow() {
   return (

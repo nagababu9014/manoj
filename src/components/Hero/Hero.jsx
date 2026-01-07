@@ -1,25 +1,20 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import "./Hero.css";
 import video1 from "../../assets/vid.mp4";
-import video2 from "../../assets/vid1.mp4";
+import video2 from "../../assets/vid2.mp4";
+import poster from "../../assets/poster.jpg"; // 👈 add your poster image here
 
 export default function Hero() {
   const videoRef1 = useRef(null);
   const videoRef2 = useRef(null);
-  const [activeVideo, setActiveVideo] = useState(1); // Start with video 1
+  const [activeVideo, setActiveVideo] = useState(1);
 
-  // Function to handle switching when a video ends
   const handleVideoEnd = (nextVideoId) => {
-    // Determine which ref is next
     const nextRef = nextVideoId === 1 ? videoRef1 : videoRef2;
-    
-    // Reset and Play the next video immediately
     if (nextRef.current) {
       nextRef.current.currentTime = 0;
       nextRef.current.play();
     }
-    
-    // Update state to trigger CSS fade transition
     setActiveVideo(nextVideoId);
   };
 
@@ -33,8 +28,10 @@ export default function Hero() {
           autoPlay
           muted
           playsInline
+          preload="metadata"
+          poster={poster}              // ✅ poster added
           className={`video-player ${activeVideo === 1 ? "active" : ""}`}
-          onEnded={() => handleVideoEnd(2)} // When V1 ends, switch to V2
+          onEnded={() => handleVideoEnd(2)}
         >
           <source src={video1} type="video/mp4" />
         </video>
@@ -44,8 +41,10 @@ export default function Hero() {
           ref={videoRef2}
           muted
           playsInline
+          preload="metadata"
+          poster={poster}              // ✅ poster added
           className={`video-player ${activeVideo === 2 ? "active" : ""}`}
-          onEnded={() => handleVideoEnd(1)} // When V2 ends, switch to V1
+          onEnded={() => handleVideoEnd(1)}
         >
           <source src={video2} type="video/mp4" />
         </video>
