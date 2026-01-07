@@ -32,15 +32,21 @@ export default function Footer() {
         <div className="footer-contact">
           <h4>Contact Us</h4>
           <p><FaMapMarkerAlt /> Andhra Pradesh, India</p>
-          <p><FaPhoneAlt /> +91 9XXXXXXXXX</p>
-          <p><FaEnvelope /> manojevents@gmail.com</p>
+          <p><FaPhoneAlt /> +9181421 33797</p>
+          <p><FaEnvelope /> manojevents797@gmail.com</p>
         </div>
 
         {/* SOCIAL */}
         <div className="footer-social">
           <h4>Follow Us</h4>
           <div className="social-icons">
-            <a href="#"><FaInstagram /></a>
+              <a
+    href="https://www.instagram.com/manojevents797?utm_source=qr&igsh=MWoyYTRidHJhOG80Zg=="
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <FaInstagram />
+  </a>
             <a href="#"><FaFacebookF /></a>
             <a href="#"><FaYoutube /></a>
           </div>

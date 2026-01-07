@@ -14,7 +14,7 @@ Name: ${name}
 Event: ${event}
 Event Location: ${address}`;
 
-    const whatsappUrl = `https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/918142133797?text=${encodeURIComponent(
       message
     )}`;
 
@@ -36,22 +36,27 @@ Event Location: ${address}`;
           <div className="contact-details">
             <div>
               <FaMapMarkerAlt />
-              <span>Andhra Pradesh, India</span>
+              <span>Andhra Pradesh, Telangana, India</span>
             </div>
             <div>
               <FaPhoneAlt />
-              <span>+91 XXXXX XXXXX</span>
+              <span>+91 81421 33797</span>
             </div>
             <div>
               <FaEnvelope />
-              <span>manojevents@gmail.com</span>
+              <span>manojevents797@gmail.com</span>
             </div>
           </div>
 
           {/* SOCIAL ICONS */}
           <div className="contact-social">
-            <a href="#" aria-label="Instagram"><FaInstagram /></a>
-            <a href="#" aria-label="Facebook"><FaFacebookF /></a>
+  <a
+    href="https://www.instagram.com/manojevents797?utm_source=qr&igsh=MWoyYTRidHJhOG80Zg=="
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <FaInstagram />
+  </a>            <a href="#" aria-label="Facebook"><FaFacebookF /></a>
             <a href="#" aria-label="YouTube"><FaYoutube /></a>
           </div>
         </div>

@@ -8,10 +8,19 @@ import Reviews from "../components/Reviews/Reviews";
 import WhyChooseUs from "../components/WhyChooseUs/WhyChooseUs";
 import Contact from "../components/Contact/Contact";
 import Footer from "../components/Footer/Footer";
-
+import { Helmet } from "react-helmet-async";
 export default function Home() {
   return (
     <>
+      <Helmet>
+        <title>Manoj Events | Premium Wedding & Event Management</title>
+        <meta
+          name="description"
+          content="Manoj Events offers premium wedding and event management services including decoration, catering, lighting, orchestra, special entries and celebrations."
+        />
+        <link rel="canonical" href="https://manojevents.in/" />
+      </Helmet>
+
       <Navbar />
 
       <section id="home">
@@ -22,9 +31,7 @@ export default function Home() {
         <Workflow />
       </section>
 
-      <section id="services">
-        <Services />
-      </section>
+      <Services />
 
       <section id="gallery">
         <Gallery />

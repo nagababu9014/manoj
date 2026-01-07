@@ -23,24 +23,28 @@ export default function Navbar() {
     { label: "Why Choose Us", target: "whyus" },
   ];
 
-  const scrollTo = (id) => {
-    // ✅ If NOT on home page → go home first
-    if (location.pathname !== "/") {
-      navigate("/");
-      setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 200);
-    } else {
-      document.getElementById(id)?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-    setOpen(false);
-  };
+const scrollTo = (id) => {
+  setOpen(false);
+
+  // If NOT on home page → just navigate home
+  if (location.pathname !== "/") {
+    navigate("/");
+    return;
+  }
+
+  // If already on home → scroll
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const y =
+    el.getBoundingClientRect().top +
+    window.pageYOffset -
+    90; // navbar height
+
+  window.scrollTo({ top: y, behavior: "smooth" });
+};
+
+
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-[#d4af37]/20 shadow-sm">
@@ -48,18 +52,27 @@ export default function Navbar() {
 
         {/* LOGO */}
         <button
-          onClick={() => scrollTo("home")}
-          className="flex items-center gap-3"
-        >
-          <img
-            src={logo}
-            alt="Manoj Events Logo"
-            className="w-20 h-20 object-contain rounded-full border border-[#d4af37]/50 p-0.5"
-          />
-          <span className={`text-2xl font-extrabold uppercase ${goldText}`}>
-            Manoj Events
-          </span>
-        </button>
+  onClick={() => scrollTo("home")}
+  className="flex items-center gap-3"
+>
+  <img
+    src={logo}
+    alt="Manoj Events Logo"
+    className="w-20 h-20 object-contain rounded-full border border-[#d4af37]/50 p-0.5"
+  />
+
+  {/* TEXT BLOCK */}
+  <div className="flex flex-col leading-tight">
+    <span className={`text-2xl font-extrabold uppercase ${goldText}`}>
+      Manoj Events
+    </span>
+
+    <span className="text-sm font-semibold tracking-wide text-[#f5057d] drop-shadow-[0_0_6px_rgba(168,85,247,0.5)]">
+      We make Memories
+    </span>
+  </div>
+</button>
+
 
         {/* DESKTOP MENU */}
         <ul className="hidden md:flex items-center gap-8 text-sm font-semibold">
@@ -95,11 +108,14 @@ export default function Navbar() {
       </div>
 
       {/* MOBILE MENU */}
-      <div
-        className={`md:hidden absolute top-full left-0 w-full bg-white border-b border-[#d4af37]/30 shadow-xl transition-all duration-300 ${
-          open ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
+<div
+  className={`md:hidden absolute top-full left-0 w-full bg-white border-b border-[#d4af37]/30 shadow-xl transition-all duration-300 ${
+    open
+      ? "max-h-[500px] opacity-100 pointer-events-auto"
+      : "max-h-0 opacity-0 pointer-events-none"
+  }`}
+>
+
         <ul className="flex flex-col items-center gap-6 py-8 text-lg font-bold">
           {navItems.map((item) => (
             <li key={item.label}>

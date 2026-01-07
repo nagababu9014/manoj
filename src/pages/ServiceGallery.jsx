@@ -1,5 +1,7 @@
-import { useParams } from "react-router-dom";
-import Navbar from "../components/Navbar/Navbar";
+import { useParams, useNavigate } from "react-router-dom";
+
+import { useEffect, useState } from "react";
+
 import "./ServiceGallery.css";
 
 /* DECORATION IMAGES */
@@ -90,56 +92,150 @@ const serviceImages = {
   lighting: [{ id: "LIGHT-001", src: light1 }],
 };
 
+
+
 export default function ServiceGallery() {
   const { service } = useParams();
+  const navigate = useNavigate();
   const images = serviceImages[service] || [];
 
-  // 1. Helper function to Generate the Link (Instead of opening it)
-  const getWhatsAppLink = (imageId, imageUrl) => {
-    const phone = "918142133797";
-    // We use window.location.origin to get the full website URL
-    const fullImageLink = `${window.location.origin}${imageUrl}`;
-    
-    const message = `
+  const [showForm, setShowForm] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [viewerImg, setViewerImg] = useState(null);
+
+  const [form, setForm] = useState({
+    name: "",
+    mobile: "",
+    location: "",
+  });
+
+  useEffect(() => {
+    document.body.style.overflow = showForm || viewerImg ? "hidden" : "auto";
+  }, [showForm, viewerImg]);
+
+  const openForm = (item) => {
+    setSelectedItem(item);
+    setShowForm(true);
+  };
+
+  const sendToWhatsApp = () => {
+  const phone = "918142133797";
+
+  // full image URL (important)
+  const imageLink = `${window.location.origin}${selectedItem.src}`;
+
+  const text = `
 Hello Manoj Events 👋
-I want to book this service.
+I want to book a service.
 
 Service: ${service}
-Image ID: ${imageId}
-Image Link: ${fullImageLink}
-    `;
+Image ID: ${selectedItem.id}
 
-    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-  };
+Image Link:
+${imageLink}
+
+Customer Details:
+Name: ${form.name}
+Mobile: ${form.mobile}
+Location: ${form.location}
+  `.trim();
+
+  window.open(
+    `https://wa.me/${phone}?text=${encodeURIComponent(text)}`,
+    "_blank"
+  );
+
+  setShowForm(false);
+  setForm({ name: "", mobile: "", location: "" });
+};
 
   return (
     <>
-      <Navbar />
+      {/* 🔙 BACK BAR */}
+      <div className="service-back-bar">
+        <button className="back-btn" onClick={() => navigate("/")}>
+          ← Back to Home
+        </button>
+        <h2 className="service-title">{service?.replace("-", " ")}</h2>
+      </div>
 
+      {/* 🖼️ GALLERY */}
       <section className="service-gallery">
         <div className="gallery-grid">
           {images.map((item) => (
             <div className="image-card" key={item.id}>
-              <img src={item.src} alt={item.id} />
+              <img
+                src={item.src}
+                alt={item.id}
+                onClick={() => setViewerImg(item.src)}
+              />
 
-              {/* 2. CHANGE BUTTON TO <a> TAG 
-                 - This fixes the mobile redirect issue.
-                 - Using e.stopPropagation() stops it from clicking any background elements.
-              */}
-              <a
-                href={getWhatsAppLink(item.id, item.src)}
+              <button
                 className="book-btn"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()} 
+                onClick={() => openForm(item)}
               >
                 Book Now
-              </a>
-              
+              </button>
             </div>
           ))}
         </div>
       </section>
+
+      {/* 🔍 IMAGE VIEWER */}
+    {viewerImg && (
+  <div className="image-viewer">
+    <button
+      className="close-btn"
+      onClick={() => setViewerImg(null)}
+    >
+      ✕
+    </button>
+
+    <img src={viewerImg} alt="full-view" />
+  </div>
+)}
+
+      {showForm && (
+  <div className="booking-modal">
+    <div className="booking-box">
+      
+      <button
+        className="close-btn form-close"
+        onClick={() => setShowForm(false)}
+      >
+        ✕
+      </button>
+
+      <h3>Book This Service</h3>
+
+      <input
+        placeholder="Your Name"
+        value={form.name}
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
+      />
+
+      <input
+        placeholder="Mobile Number"
+        value={form.mobile}
+        onChange={(e) => setForm({ ...form, mobile: e.target.value })}
+      />
+
+      <input
+        placeholder="Event Location"
+        value={form.location}
+        onChange={(e) => setForm({ ...form, location: e.target.value })}
+      />
+
+      <div className="form-actions">
+        <button onClick={sendToWhatsApp}>Send to WhatsApp</button>
+        <button className="cancel" onClick={() => setShowForm(false)}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 }

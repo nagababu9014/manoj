@@ -34,6 +34,9 @@ html, body {
   }
 }
 
+body {
+  padding-top: 20px; /* navbar height */
+}
 
 /* Headings */
 h1, h2, h3 {
